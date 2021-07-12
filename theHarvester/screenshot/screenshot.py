@@ -54,7 +54,7 @@ class ScreenShotter:
             timeout = aiohttp.ClientTimeout(total=35)
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                                      'Chrome/83.0.4103.106 Safari/537.36'}
-            url = f'http://{url}' if ('http' not in url and 'https' not in url) else url
+            url = f'http://{url}' if not url.startswith('http') else url
             url = url.replace('www.', '')
             sslcontext = ssl.create_default_context(cafile=certifi.where())
             async with aiohttp.ClientSession(timeout=timeout, headers=headers,
@@ -68,7 +68,7 @@ class ScreenShotter:
             return "", ""
 
     async def take_screenshot(self, url):
-        url = f'http://{url}' if ('http' not in url and 'https' not in url) else url
+        url = f'http://{url}' if not url.startswith('http')
         url = url.replace('www.', '')
         print(f'Attempting to take a screenshot of: {url}')
         browser = await launch(headless=True, ignoreHTTPSErrors=True, args=["--no-sandbox"])
