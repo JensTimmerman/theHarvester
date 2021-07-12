@@ -68,7 +68,7 @@ class ScreenShotter:
             return "", ""
 
     async def take_screenshot(self, url):
-        url = f'http://{url}' if ('http' not in url and 'https' not in url) else url
+        url = f'http://{url}' if not url.startswith('http')
         url = url.replace('www.', '')
         print(f'Attempting to take a screenshot of: {url}')
         browser = await launch(headless=True, ignoreHTTPSErrors=True, args=["--no-sandbox"])
